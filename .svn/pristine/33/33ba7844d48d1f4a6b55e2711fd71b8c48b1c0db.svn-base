@@ -1,0 +1,24 @@
+package org.tpri.djcom.manager.pub;
+
+import org.springframework.stereotype.Repository;
+import org.tpri.djcom.core.ManagerBase;
+import org.tpri.djcom.core.ObjectRegister;
+import org.tpri.djcom.core.ObjectType;
+import org.tpri.djcom.entity.pub.Assessresult;
+/**
+ * @description 问卷测评结果对象管理类
+ * @author zhaozijing
+ * @since 2015-06-26
+ */
+
+@Repository("AssessresultManager")
+public class AssessresultManager extends ManagerBase {
+	private static boolean initialized = false;
+    public  void initialize() {
+        if (initialized)
+            return;
+        initialized =  true;
+        ObjectRegister.registerClass(ObjectType.PUB_ASSESSRESULT, Assessresult.class);
+    }
+
+}

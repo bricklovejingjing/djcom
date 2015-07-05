@@ -1,0 +1,82 @@
+package org.tpri.djcom.entity.sys;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.tpri.djcom.core.ObjectBase;
+import org.tpri.djcom.core.ObjectType;
+
+/**
+ * @description 系统环境变量bean
+ * @author 易文俊
+ * @since 2015-04-30
+ */
+
+@Entity
+@Table(name="SYS_ENVIRONMENT")
+public class Environment  extends ObjectBase{
+	
+	private static final long serialVersionUID = buildSerialVersionUID(ObjectType.SYS_ENVIRONMENT);
+
+	public static final int TYPE_STRING = 0; 	//字符串
+	public static final int TYPE_INT = 1; 		//整数
+	public static final int TYPE_FLOAT = 2; 		//浮点数
+	public static final int TYPE_BOOLEAN = 3; 	//布尔值
+	
+	protected int type;
+	protected String valueRange;
+	protected String value;
+	protected String description;
+	protected String application;
+	
+	public Environment(){
+		super();
+		objectType = ObjectType.SYS_ENVIRONMENT;
+	}
+	
+
+	@Id
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	@Column(name="TYPE")
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	@Column(name="VALUERANGE")
+	public String getValueRange() {
+		return valueRange;
+	}
+	public void setValueRange(String valueRange) {
+		this.valueRange = valueRange;
+	}
+	@Column(name="VALUE")
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	@Column(name="DESCRIPTION")
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	@Column(name="APPLICATION")
+	public String getApplication() {
+		return application;
+	}
+	public void setApplication(String application) {
+		this.application = application;
+	}
+}

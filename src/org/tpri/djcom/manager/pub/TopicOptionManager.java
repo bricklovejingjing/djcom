@@ -1,0 +1,69 @@
+package org.tpri.djcom.manager.pub;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.tpri.djcom.core.ManagerBase;
+import org.tpri.djcom.core.ObjectRegister;
+import org.tpri.djcom.core.ObjectType;
+import org.tpri.djcom.dao.condition.Condition;
+import org.tpri.djcom.dao.condition.DaoPara;
+import org.tpri.djcom.dao.condition.Order;
+import org.tpri.djcom.entity.pub.AssessmentTopic;
+import org.tpri.djcom.entity.pub.TopicAnswer;
+import org.tpri.djcom.entity.pub.TopicOption;
+
+/**
+ * @description 问卷测评试题选项管理类
+ * @author zhaozijing
+ * @since 2015-06-26
+ */
+
+@Repository("TopicOptionManager")
+public class TopicOptionManager extends ManagerBase {
+	private static boolean initialized = false;
+    public  void initialize() {
+        if (initialized)
+            return;
+        initialized =  true;
+        ObjectRegister.registerClass(ObjectType.PUB_TOPIC_OPTION, TopicOption.class);
+    }
+
+    /**
+     * 根据试卷ID删除试题选项
+     * @param topicId
+     * @return
+     */
+    public boolean deleteTopicOptionByTopicId(String topicId){
+    	DaoPara daoPara = new DaoPara();
+    	Class clazz = ObjectRegister.getClassByClassType(ObjectType.PUB_TOPIC_OPTION);
+    	daoPara.setClazz(clazz);
+    	daoPara.addCondition(Condition.EQUAL("topicId", topicId));
+    	dao.delete(daoPara);
+        return true;
+    }
+    
+    /**
+     * 根据试题ID获取选项集合
+     * @param topicId
+     * @return
+     */
+    public List<TopicOption> getOptionByTopicId(String topicId){
+    	DaoPara daoPara = new DaoPara();
+		daoPara.setClazz(TopicOption.class);
+		daoPara.addCondition(Condition.EQUAL("topicId", topicId));
+		daoPara.addOrder(Order.asc("seq"));
+        List list = dao.loadList(daoPara);
+        return list;
+    }
+    
+    /**
+     * 根据ID获取选项
+     * @return
+     */
+    public TopicOption getOptionById(String id)  {
+    	TopicOption option=(TopicOption)super.load(id, ObjectType.PUB_TOPIC_OPTION);
+    	return option;
+    }
+    
+}

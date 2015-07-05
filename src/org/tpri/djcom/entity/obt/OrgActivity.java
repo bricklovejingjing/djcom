@@ -1,0 +1,202 @@
+package org.tpri.djcom.entity.obt;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.tpri.djcom.core.ObjectBase;
+import org.tpri.djcom.core.ObjectType;
+
+/**
+ * @description 组织生活bean
+ * @author zhaozijing
+ * @since 2015-06-30
+ */
+@Entity
+@Table(name="OBT_ORG_ACTIVITY")
+public class OrgActivity extends ObjectBase {
+	protected int objectType = ObjectType.OBT_ORG_ACTIVITY;
+	
+	private static final long serialVersionUID = 1L;
+	
+	public static final int status_0 = 0;	//起草
+	public static final int status_1 = 1;	//发布
+	public static final int status_2 = 2;	//结束
+	
+	public static final int HASSUMMARY_0 = 0;		//会议纪要没生成
+	public static final int HASSUMMARY_1 = 1;		//会议纪要已生成
+	
+	protected String content;			//活动内容
+	protected String notes;			//会议纪要
+	protected int type;				//会议类型：1党小组会2党支部大会3支部委员会4党课5民主生活会6党性分析
+	protected Date planTime;			//计划活动时间
+	protected Date executeTime;		//执行活动时间
+	protected String address;			//活动地点
+	protected int sendMessage;			//是否短信通知:0否1是
+	protected String chief;			//主持人
+	protected String recorder;			//记录人
+	protected String summary;			//活动情况总结
+	protected int status;				//状态:0起草；1发布；3结束
+	protected String createUserId;		//创建用户ID
+	protected String createUserName;	//创建用户名称
+	protected Date createTime;			//创建时间
+	protected int isReport;			//是否已上报：0未上报1已上报
+	protected Date reportTime;			//上报时间
+	protected String ccpartyId;		//党组织ID
+	protected String joinUsers;		//出席人员
+	protected int hasSummary;			//会议纪要是否生成 0是 1否
+	
+	@Id  
+	@Column(name="ID")
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	@Column(name="NAME")
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Column(name="CONTENT")
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	@Column(name="NOTES")
+	public String getNotes() {
+		return notes;
+	}
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	@Column(name="TYPE")
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	@Column(name="PLANTIME")
+	public Date getPlanTime() {
+		return planTime;
+	}
+	public void setPlanTime(Date planTime) {
+		this.planTime = planTime;
+	}
+	@Column(name="EXECUTETIME")
+	public Date getExecuteTime() {
+		return executeTime;
+	}
+	public void setExecuteTime(Date executeTime) {
+		this.executeTime = executeTime;
+	}
+	@Column(name="ADDRESS")
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	@Column(name="SENDMESSAGE")
+	public int getSendMessage() {
+		return sendMessage;
+	}
+	public void setSendMessage(int sendMessage) {
+		this.sendMessage = sendMessage;
+	}
+	@Column(name="CHIEF")
+	public String getChief() {
+		return chief;
+	}
+	public void setChief(String chief) {
+		this.chief = chief;
+	}
+	@Column(name="RECORDER")
+	public String getRecorder() {
+		return recorder;
+	}
+	public void setRecorder(String recorder) {
+		this.recorder = recorder;
+	}
+	@Column(name="SUMMARY")
+	public String getSummary() {
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+	@Column(name="STATUS")
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	@Column(name="CREATEUSERID")
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+	@Column(name="CREATEUSERNAME")
+	public String getCreateUserName() {
+		return createUserName;
+	}
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+	@Column(name="CREATETIME")
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	@Column(name="ISREPORT")
+	public int getIsReport() {
+		return isReport;
+	}
+	public void setIsReport(int isReport) {
+		this.isReport = isReport;
+	}
+	@Column(name="REPORTTIME")
+	public Date getReportTime() {
+		return reportTime;
+	}
+	public void setReportTime(Date reportTime) {
+		this.reportTime = reportTime;
+	}
+	@Column(name="CCPARTYID")
+	public String getCcpartyId() {
+		return ccpartyId;
+	}
+	public void setCcpartyId(String ccpartyId) {
+		this.ccpartyId = ccpartyId;
+	}
+	@Column(name="JOINUSERS")
+	public String getJoinUsers() {
+		return joinUsers;
+	}
+	public void setJoinUsers(String joinUsers) {
+		this.joinUsers = joinUsers;
+	}
+	@Column(name="HASSUMMARY")
+	public int getHasSummary() {
+		return hasSummary;
+	}
+	public void setHasSummary(int hasSummary) {
+		this.hasSummary = hasSummary;
+	}
+
+	
+}

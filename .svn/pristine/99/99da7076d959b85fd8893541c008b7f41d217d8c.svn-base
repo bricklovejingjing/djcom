@@ -1,0 +1,102 @@
+package org.tpri.djcom.entity.sch;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.tpri.djcom.core.ObjectBase;
+import org.tpri.djcom.core.ObjectType;
+
+/**
+ * @description 工作报名人员bean
+ * @author 易文俊
+ * @since 2015-06-19
+ */
+@Entity
+@Table(name = "SCH_WORK_APPLICANTS")
+public class WorkApplicants extends ObjectBase {
+	private static final long serialVersionUID = -820143208534988235L;
+	/** */
+	protected int objectType = ObjectType.SCH_WORK_APPLICANTS;
+	
+	public static final int STATUS_UNAPPLY = 0; // 未报名
+	public static final int STATUS_APPLIED = 1; // 已报名
+	public static final int STATUS_IGNORE = 2; 	// 忽略
+
+	protected String workApplicationId;
+	protected String userId;
+	protected String userName;
+	protected String ccpartyId;
+	protected String ccpartyName;
+	protected int status;
+	protected Timestamp applyTime;
+	protected Timestamp createTime;
+
+	@Id
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	@Column(name = "STATUS")
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	@Column(name = "CREATETIME")
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+	@Column(name = "WORKAPPLICATIONID")
+	public String getWorkApplicationId() {
+		return workApplicationId;
+	}
+	public void setWorkApplicationId(String workApplicationId) {
+		this.workApplicationId = workApplicationId;
+	}
+	@Column(name = "USERID")
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	@Column(name = "USERNAME")
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	@Column(name = "CCPARTYID")
+	public String getCcpartyId() {
+		return ccpartyId;
+	}
+	public void setCcpartyId(String ccpartyId) {
+		this.ccpartyId = ccpartyId;
+	}
+	@Column(name = "CCPARTYNAME")
+	public String getCcpartyName() {
+		return ccpartyName;
+	}
+	public void setCcpartyName(String ccpartyName) {
+		this.ccpartyName = ccpartyName;
+	}
+	@Column(name = "APPLYTIME")
+	public Timestamp getApplyTime() {
+		return applyTime;
+	}
+	public void setApplyTime(Timestamp applyTime) {
+		this.applyTime = applyTime;
+	}
+	
+}

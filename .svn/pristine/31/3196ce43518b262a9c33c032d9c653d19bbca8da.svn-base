@@ -1,0 +1,104 @@
+package org.tpri.djcom.util;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONObject;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.tpri.djcom.controller.BaseController;
+import org.tpri.djcom.entity.obt.PartyMember;
+import org.tpri.djcom.entity.org.CCParty;
+import org.tpri.djcom.entity.uam.Role;
+import org.tpri.djcom.entity.uam.User;
+import org.tpri.djcom.manager.uam.UserManager;
+
+/**
+ * 页面帮助类。 用于将一些参数在页面加载时传递给前台页面。 1、将所有参数放在一个JSONObject中，可以放字符串、数字、数组、List、Map等
+ * 2、前台的Global会将JSONObject中的属性转换成Global对象自己的属性。
+ * 3、跳转至某个页面前，可以将个性化的信息通过request.setAttribute
+ * (BaseConstants.PAGE_GLOBAL_VALUES_IDENTIFIER, Map xxx)
+ * 方法放入request中，本类会自动将其转换成Global的属性
+ * 
+ * @author 易文俊
+ * @version 2015-05-05
+ */
+public class PageSupport extends BaseController{
+	/**
+	 * 构建要传给前台页面的属性
+	 */
+	public static String buildAttributes(HttpServletRequest request) {
+		
+		ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+		
+		JSONObject jo = new JSONObject();
+		// 将各页面自定义的信息传递给Global
+		Map globalValues = (Map) request.getAttribute(BaseConstants.PAGE_GLOBAL_VALUES_IDENTIFIER);
+		if (globalValues != null && globalValues instanceof Map) {
+			jo.putAll(globalValues);
+		}
+		// 验证键值存在检查
+		//主要是针对弹出登录框的情况的下的处理
+        String validateKey = RequestUtils.getValidateKey(request);
+        if (!StringUtils.isBlank(validateKey)) {
+        	// 分解验证键值
+            String[] values = validateKey.split(BaseConstants.COOKIE_VALIDATE_KEY_SPLIT);
+            request.setAttribute(BaseConstants.REQ_CUR_USER_ID, values[0]);
+            request.setAttribute(BaseConstants.REQ_CUR_USER_NAME, values[1]);
+            if (values.length > 2) {
+            	request.setAttribute(BaseConstants.REQ_CUR_ROLE_CODE, values[2]);
+                if (values.length > 3) {
+                	request.setAttribute(BaseConstants.REQ_CUR_ORG_ID, values[3]);
+                }
+            }
+        }
+        
+		// 用户信息
+		String userId = (String) request.getAttribute(BaseConstants.REQ_CUR_USER_ID);
+		if (userId != null && !userId.equals("")) {
+			UserManager userManager =(UserManager) applicationContext.getBean("UserManager");
+			User user=userManager.getUser(userId);
+			String ccpartyId="";
+			String ccpartyName="";
+	        PartyMember partyMember=user.getPartyMember();
+	        if(partyMember!=null){
+	        	CCParty ccparty=partyMember.getCcparty();
+	        	if(ccparty!=null){
+	        		ccpartyId=ccparty.getId();
+	        		ccpartyName=ccparty.getName();
+	        	}
+	        }
+	        String roleStr="";
+	        Set<Role> roles=user.getRoles();
+	        Iterator<Role> iterator=roles.iterator();
+	        while(iterator.hasNext()){
+	        	Role role=iterator.next();
+	        	roleStr=roleStr+role.getId()+",";
+	        }
+	        if(roleStr.endsWith(",")){
+	        	roleStr=roleStr.substring(0, roleStr.length()-1);
+	        }
+	        HashSet<String> allPrivilegeIds = user.loadAllPrivilegeIds();
+			jo.put("userId", user.getId());
+			jo.put("userName", user.getName());
+			jo.put("roles", roleStr);
+			jo.put("ccpartyId", ccpartyId);
+			jo.put("ccpartyName", ccpartyName);
+			jo.put("isSystemAdmin", user.isSystemAdmin());
+			jo.put("allPrivilegeIds", allPrivilegeIds);
+		}else{
+			jo.put("userId", "");
+			jo.put("userName", "未登录用户");
+		}
+
+		String jsonString = jo.toString();
+		return jsonString;
+	}
+
+}

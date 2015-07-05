@@ -1,0 +1,123 @@
+package org.tpri.djcom.manager.pub;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+import org.tpri.djcom.core.ManagerBase;
+import org.tpri.djcom.core.ObjectRegister;
+import org.tpri.djcom.core.ObjectType;
+import org.tpri.djcom.dao.condition.Condition;
+import org.tpri.djcom.dao.condition.DaoPara;
+import org.tpri.djcom.dao.condition.Order;
+import org.tpri.djcom.entity.pub.Reminder;
+/**
+ * @description 待办事项管理类
+ * @author yiwenjun
+ * @since 2015-06-17
+ */
+
+@Repository("ReminderManager")
+public class ReminderManager extends ManagerBase {
+	private static boolean initialized = false;
+    public  void initialize() {
+        if (initialized)
+            return;
+        initialized =  true;
+        ObjectRegister.registerClass(ObjectType.PUB_REMINDER, Reminder.class);
+    }
+    
+    /**
+     * 获取某用户的待办事项列表
+     * @return
+     */
+    public List<Reminder> getReminderListByUserId(String userId)  {
+    	DaoPara daoPara = new DaoPara();
+		daoPara.setClazz(Reminder.class);
+		daoPara.addCondition(Condition.EQUAL("userId", userId));
+		daoPara.addOrder(Order.desc("createTime"));
+		List list = dao.loadList(daoPara);
+        return list;
+    }
+
+    /**
+     * 获取某用户的待办事项列表
+     * @param userId
+     * @param type 业务类型
+     * @return
+     */
+    public List<Reminder> getReminderListByUserId(String userId,int type)  {
+    	DaoPara daoPara = new DaoPara();
+		daoPara.setClazz(Reminder.class);
+		daoPara.addCondition(Condition.EQUAL("userId", userId));
+		daoPara.addCondition(Condition.EQUAL("type", type));
+		daoPara.addOrder(Order.desc("createTime"));
+		List list = dao.loadList(daoPara);
+        return list;
+    }
+    
+    /**
+     * 根据ID获取待办事项
+     * @return
+     */
+	public Reminder getReminderById(String id)  {
+    	Object obj=this.loadOne(ObjectType.PUB_REMINDER, new String[] { "id" }, new Object[] { id });
+    	if (obj == null) {
+			return null;
+		}
+    	Reminder o=(Reminder)obj;
+        return o;
+    }
+	/**
+     * 删除取待办事项
+     * @return
+     */
+    public boolean deleteReminder(String id)  {
+    	return super.delete(id, ObjectType.PUB_REMINDER);
+    }
+    /**
+     * 更新待办事项
+     * @return
+     */
+    public boolean updateReminder(String id, Map<String, Object> fieldValues) {
+		super.update(id, ObjectType.PUB_REMINDER, fieldValues);
+		return true;
+	}
+    
+    /**
+	 * 删除某类业务的所有提醒
+	 * 
+	 * @return
+	 */
+	public boolean deleteReminder(int type, String businessKey) {
+		String hql = "delete from PUB_REMINDER where type=? and businessKey=? and status=0";
+		Object[] params = new Object[] { type,businessKey };
+		dao.deleteNative(hql, params);
+		return true;
+	}
+	/**
+	 * 删除某用户某类业务提醒
+	 * 
+	 * @return
+	 */
+	public boolean deleteReminder(int type, String businessKey,String userId) {
+		String hql = "delete from PUB_REMINDER where type=? and businessKey=?  and userId=? and status=0";
+		Object[] params = new Object[] { type,businessKey ,userId};
+		dao.deleteNative(hql, params);
+		return true;
+	}
+	
+	/**
+	 * 删除某业务的业务提醒除了自己的那条记录不删除
+	 * 用于工作报名中只需有一个人报名即可
+	 * 
+	 * @return
+	 */
+	public boolean deleteReminderForWork(int type, String businessKey,String reminderId) {
+		String hql = "delete from PUB_REMINDER where type=? and businessKey=?  and id!=?  and status=0";
+		Object[] params = new Object[] { type,businessKey ,reminderId};
+		dao.deleteNative(hql, params);
+		return true;
+	}
+
+}

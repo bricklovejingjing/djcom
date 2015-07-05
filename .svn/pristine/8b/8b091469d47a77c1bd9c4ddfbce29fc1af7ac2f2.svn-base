@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<!-- 
+	@description hibernate配置文件
+  	@author 易文俊
+  	@since 2015-04-02
+-->
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="org.tpri.djcom.entity.com.BaseInfo" />
+		
+		<mapping class="org.tpri.djcom.entity.uam.User" />
+		<mapping class="org.tpri.djcom.entity.uam.Role" />
+		<mapping class="org.tpri.djcom.entity.uam.Privilege" />
+		<mapping class="org.tpri.djcom.entity.uam.UserRole" />
+		
+		<mapping class="org.tpri.djcom.entity.sys.Environment" />
+		<mapping class="org.tpri.djcom.entity.sys.Navigation" />
+
+		<mapping class="org.tpri.djcom.entity.org.CCParty" />
+		<mapping class="org.tpri.djcom.entity.org.Organization" />
+		<mapping class="org.tpri.djcom.entity.org.OrgPartyLeader" />
+
+		<mapping class="org.tpri.djcom.entity.obt.PartyMember" />
+		
+		<mapping class="org.tpri.djcom.entity.tsk.MaterialReport" />
+		<mapping class="org.tpri.djcom.entity.tsk.InfoReport" />
+		
+		<mapping class="org.tpri.djcom.entity.sch.WorkApplication" />
+		<mapping class="org.tpri.djcom.entity.sch.WorkApplicants" />
+		
+		<mapping class="org.tpri.djcom.entity.zbsc.Article" />
+		<mapping class="org.tpri.djcom.entity.zbsc.Category" />
+		<mapping class="org.tpri.djcom.entity.zbsc.ArticleCategory" />
+		<mapping class="org.tpri.djcom.entity.zbsc.Information" />
+		<mapping class="org.tpri.djcom.entity.zbsc.UploadFile" />
+		<mapping class="org.tpri.djcom.entity.zbsc.UploadFileData" />
+		<mapping class="org.tpri.djcom.entity.zbsc.Comment" />
+		<mapping class="org.tpri.djcom.entity.zbsc.Praise" />
+		
+		<mapping class="org.tpri.djcom.entity.pub.Notice" />
+		<mapping class="org.tpri.djcom.entity.pub.Assessment" />
+		<mapping class="org.tpri.djcom.entity.pub.Reminder" />
+		<mapping class="org.tpri.djcom.entity.pub.Message" />
+		<mapping class="org.tpri.djcom.entity.pub.Assesstarget" />
+		<mapping class="org.tpri.djcom.entity.pub.NoticeRecord" />
+		<mapping class="org.tpri.djcom.entity.pub.AssessmentTopic" />
+		<mapping class="org.tpri.djcom.entity.pub.TopicOption" />
+		<mapping class="org.tpri.djcom.entity.pub.TopicAnswer" />
+		<mapping class="org.tpri.djcom.entity.pub.Assessresult" />
+		
+	</session-factory>
+</hibernate-configuration>
